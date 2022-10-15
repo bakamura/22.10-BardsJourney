@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 
 public class DrumInput : MonoBehaviour {
 
     [Header("Metronome")]
 
-    private float _metronomeState = 0;
+    private float _metronomeState = 0.5f;
     public float metronomeSpeed = 1f;
     public float metronomeSuccessInterval = 0.25f;
 
@@ -14,12 +13,15 @@ public class DrumInput : MonoBehaviour {
 
     [Header("Drums")]
 
+    [SerializeField] private AudioSource _drumSource;
+
     // [PC Testing]
     [SerializeField] private KeyCode aDrumkey;
     [SerializeField] private KeyCode bDrumkey;
     [SerializeField] private KeyCode cDrumkey;
     [SerializeField] private KeyCode dDrumkey;
     [SerializeField] private TESTEFEEDBACK testefeedback;
+
 
     private void Update() {
         UpdateMetronome();
@@ -43,7 +45,7 @@ public class DrumInput : MonoBehaviour {
         }
 
         _needleRectTransform.rotation = Quaternion.Euler(0, 0, (_metronomeState * _needleAmplitude) - (_needleAmplitude / 2));
-        // USE TO GET NEEDLE POINT SUCCESS START _needleRectTransform.rotation = Quaternion.Euler(0, 0, ((0.5f - (metronomeSuccessInterval/2)) * _needleAmplitude) - (_needleAmplitude / 2));
+        //_needleRectTransform.rotation = Quaternion.Euler(0, 0, ((0.5f - (metronomeSuccessInterval / 2)) * _needleAmplitude) - (_needleAmplitude / 2)); // Get Success Interval
     }
 
     private bool GetMetronomeSuccess() {
@@ -54,9 +56,11 @@ public class DrumInput : MonoBehaviour {
 
     public void DrumBtnPress(int drumN) {
         if (GetMetronomeSuccess()) {
-            // visual success indicator
             if (Enemy.enemyList[0].CheckRythm((Rythm.DrumNote)drumN)) {
+                // visual success indicator
                 testefeedback.ShowFB(true);
+                _drumSource.pitch = Random.Range(0.5f, 1.5f);
+                _drumSource.Play();
                 Debug.Log("Hit Correct");
             }
             else {

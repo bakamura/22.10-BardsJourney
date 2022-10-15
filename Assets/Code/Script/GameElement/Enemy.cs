@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour {
 
     [Header("Rythm")]
 
+    [SerializeField] private SpriteRenderer[] _rythmNotes = new SpriteRenderer[5];
     [SerializeField] private Rythm _rythm;
     private int _rythmState = 0;
 
@@ -33,15 +34,22 @@ public class Enemy : MonoBehaviour {
 
     private void UpdatePosition() {
         if (_movementState < 1f) {
+            float lastMovementState = _movementState;
             _movementState += Time.deltaTime / _movementDuration;
 
             transform.position = new Vector3(transform.position.x,
-                _movementState < (_heightMax - _heightStart) / _heightTotal ? _movementState * _heightTotal : _heightMax - ((_movementState * _heightTotal) - (_heightMax - _heightStart)), transform.position.z);
+                _movementState < (_heightMax - _heightStart) / _heightTotal ? _heightStart + (_movementState * _heightTotal) : _heightMax - ((_movementState * _heightTotal) - (_heightMax - _heightStart)), transform.position.z);
 
             float size = _movementState < (_heightMax - _heightStart) / _heightTotal ?
                 _sizeInitial : _sizeInitial + ((_sizeFinal - _sizeInitial) * ((_movementState * _heightTotal) - (_heightMax - _heightStart)) / (_heightMax - _heightMin));
 
             transform.localScale = new Vector3(size, size, 1);
+
+            if(lastMovementState < (_heightMax - _heightStart) / _heightTotal && _movementState >= (_heightMax - _heightStart) / _heightTotal) {
+                GetComponent<SpriteRenderer>().sortingOrder += 5;
+                _rythmNotes[0].transform.parent.GetComponent<SpriteRenderer>().sortingOrder += 5;
+                for(int i = 0; i < _rythmNotes.Length; i++) _rythmNotes[i].sortingOrder += 5;
+            }
         }
         else {
             // Fail level

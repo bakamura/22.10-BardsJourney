@@ -15,19 +15,19 @@ public class Rythm : ScriptableObject {
             
     public enum DrumNote {
         Null,
-        Green,
-        Yellow,
         Red,
-        Blue
+        Purple,
+        Blue,
+        Yellow
     }
     public DrumNote[] drumNote = new DrumNote[5];
 
     public static DrumNote IntToDrumNote(int drumNote) {
         switch (drumNote) {
-            case 1: return DrumNote.Green;
-            case 2: return DrumNote.Yellow;
-            case 3: return DrumNote.Red;
-            case 4: return DrumNote.Blue;
+            case 1: return DrumNote.Red;
+            case 2: return DrumNote.Purple;
+            case 3: return DrumNote.Blue;
+            case 4: return DrumNote.Yellow;
             default: return DrumNote.Null;
         }
     }
