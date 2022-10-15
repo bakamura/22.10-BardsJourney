@@ -19,6 +19,7 @@ public class DrumInput : MonoBehaviour {
     [SerializeField] private KeyCode bDrumkey;
     [SerializeField] private KeyCode cDrumkey;
     [SerializeField] private KeyCode dDrumkey;
+    [SerializeField] private TESTEFEEDBACK testefeedback;
 
     private void Update() {
         UpdateMetronome();
@@ -54,13 +55,20 @@ public class DrumInput : MonoBehaviour {
     public void DrumBtnPress(int drumN) {
         if (GetMetronomeSuccess()) {
             // visual success indicator
-            if (Enemy.enemyList[0].CheckRythm((Rythm.DrumNote) drumN)) Debug.Log("Hit Correct");
-            else Debug.Log("Hit Wrong");
+            if (Enemy.enemyList[0].CheckRythm((Rythm.DrumNote)drumN)) {
+                testefeedback.ShowFB(true);
+                Debug.Log("Hit Correct");
+            }
+            else {
+                testefeedback.ShowFB(false);
+                Debug.Log("Hit Wrong");
+            }
             // get closest enemy with matching result
             // break any sequences that where interrupted
         }
         else {
             // visual failure indicator
+            testefeedback.ShowFB(false);
             Debug.Log("MetroFailure");
             // break current sequence
         }
