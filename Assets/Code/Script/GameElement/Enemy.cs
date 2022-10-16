@@ -11,21 +11,28 @@ public class Enemy : MonoBehaviour {
     private int _rythmState = 0;
 
     [HideInInspector] public EnemyWaveManager waveManager;
+    private MovingElement _movingElement;
 
     private void Start() {
         GetComponent<MovingElement>().onChangeHeightDirection.AddListener(SetBarAboveGround);
         GetComponent<MovingElement>().onCompletePath.AddListener(AttackPlayer);
+        _movingElement = GetComponent<MovingElement>();
 
         for (int i = 0; i < _rythm.Size; i++) {
             _rythmNotes[i].sprite = _rythm.noteSprites[(int)_rythm.drumNote[i]];
             _rythmNotes[i].enabled = _rythm.drumNote[i] != Rythm.DrumNote.Null;
         }
+    }
 
+    private void Update() {
+        _rythmNotes[0].transform.parent.GetComponent<SpriteRenderer>().sortingOrder = (int)Mathf.Floor(_movingElement.movementState * 100f) - 1;
+        foreach (SpriteRenderer sr in _rythmNotes) sr.sortingOrder = (int)Mathf.Floor(_movingElement.movementState * 100f);
     }
 
     private void SetBarAboveGround() {
-        _rythmNotes[0].transform.parent.GetComponent<SpriteRenderer>().sortingOrder += 5;
-        for (int i = 0; i < _rythmNotes.Length; i++) _rythmNotes[i].sortingOrder += 5;
+
+        _rythmNotes[0].transform.parent.GetComponent<SpriteRenderer>().sortingLayerName = "InFront";
+        for (int i = 0; i < _rythmNotes.Length; i++) _rythmNotes[i].sortingLayerName = "InFront";
     }
 
     private void AttackPlayer() {
@@ -50,9 +57,7 @@ public class Enemy : MonoBehaviour {
             StartCoroutine(ShowFeedback());
             _rythmState++;
             if (_rythmState == _rythm.Size) {
-                StopAllCoroutines();
-                waveManager.enemiesSpawned.RemoveAt(0);
-                GetComponent<Animator>().SetTrigger("Charmed");
+                StartCoroutine(FadeOut());
             }
             return true;
         }
@@ -80,5 +85,26 @@ public class Enemy : MonoBehaviour {
             sr.transform.localScale = Vector3.one;
         }
         _rythmState = 0;
+    }
+
+    private IEnumerator FadeOut() {
+        StopCoroutine(Attack());
+        GetComponent<MovingElement>().canMove = false;
+        GetComponent<Animator>().SetTrigger("Charmed");
+        _rythmNotes[0].transform.parent.gameObject.SetActive(false);
+        waveManager.enemiesSpawned.RemoveAt(0);
+
+        yield return new WaitForSeconds(1.5f);
+
+        float alpha = 1;
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        while (alpha > 0) {
+            alpha -= Time.deltaTime;
+            sr.color = new Color(1, 1, 1, alpha);
+
+            yield return null;
+        }
+        waveManager.charmCount++;
+        Destroy(gameObject);
     }
 }

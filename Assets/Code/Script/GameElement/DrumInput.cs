@@ -61,7 +61,7 @@ public class DrumInput : MonoBehaviour {
 
         if (_lastMetronomeSuccess != GetMetronomeSuccess() && _lastMetronomeSuccess) {
             if (_hasInputed) _hasInputed = false;
-            else _waveManger.enemiesSpawned[0].ResetRythmBar();
+            else if(_waveManger.enemiesSpawned.Count > 0) _waveManger.enemiesSpawned[0].ResetRythmBar();
         }
         _lastMetronomeSuccess = GetMetronomeSuccess();
     }

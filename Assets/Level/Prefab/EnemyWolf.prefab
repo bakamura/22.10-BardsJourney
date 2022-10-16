@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2286244124356969541}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -74,9 +74,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingLayerID: -155853917
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 1580756820, guid: 1f7ab19c188d01643a1fd832cf07c78f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -120,8 +120,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 681b03658a921f5419cb4a185d01b474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canMove: 1
+  movementState: 0
   _movementDuration: 18
-  _heightStart: -1
+  _heightStart: -1.5
   _heightMax: 1.15
   _heightMin: -4.5
   _sizeInitial: 1
@@ -149,6 +151,7 @@ MonoBehaviour:
   - {fileID: 2286244125799890767}
   - {fileID: 2286244125912262480}
   - {fileID: 2286244125135894373}
+  - {fileID: 8408481092829008337}
   _rythm: {fileID: 11400000, guid: c315f643b66ec7748b2fd5179c520b57, type: 2}
   waveManager: {fileID: 0}
 --- !u!1001 &1394228941378743820
@@ -235,5 +238,10 @@ SpriteRenderer:
 --- !u!4 &2286244126225816933 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 928609307018244969, guid: 803cf3b20a84e894c98db38db6bea9e0, type: 3}
+  m_PrefabInstance: {fileID: 1394228941378743820}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8408481092829008337 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7487699289991004125, guid: 803cf3b20a84e894c98db38db6bea9e0, type: 3}
   m_PrefabInstance: {fileID: 1394228941378743820}
   m_PrefabAsset: {fileID: 0}
