@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: UrsoAnimation
+  m_Name: jacareAnimation
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,13 +20,13 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -1749131376, guid: f0212882c6dc19d4dab98cf05d9732e4, type: 3}
+      value: {fileID: 1487127558, guid: 73305b97621572a43bf01bdef01abeee, type: 3}
     - time: 0.2
-      value: {fileID: -2002709409, guid: f0212882c6dc19d4dab98cf05d9732e4, type: 3}
+      value: {fileID: -504798293, guid: 73305b97621572a43bf01bdef01abeee, type: 3}
     - time: 0.4
-      value: {fileID: -754325403, guid: f0212882c6dc19d4dab98cf05d9732e4, type: 3}
+      value: {fileID: 869167814, guid: 73305b97621572a43bf01bdef01abeee, type: 3}
     - time: 0.6
-      value: {fileID: 1958593036, guid: f0212882c6dc19d4dab98cf05d9732e4, type: 3}
+      value: {fileID: -540111120, guid: 73305b97621572a43bf01bdef01abeee, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,10 +46,10 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -1749131376, guid: f0212882c6dc19d4dab98cf05d9732e4, type: 3}
-    - {fileID: -2002709409, guid: f0212882c6dc19d4dab98cf05d9732e4, type: 3}
-    - {fileID: -754325403, guid: f0212882c6dc19d4dab98cf05d9732e4, type: 3}
-    - {fileID: 1958593036, guid: f0212882c6dc19d4dab98cf05d9732e4, type: 3}
+    - {fileID: 1487127558, guid: 73305b97621572a43bf01bdef01abeee, type: 3}
+    - {fileID: -504798293, guid: 73305b97621572a43bf01bdef01abeee, type: 3}
+    - {fileID: 869167814, guid: 73305b97621572a43bf01bdef01abeee, type: 3}
+    - {fileID: -540111120, guid: 73305b97621572a43bf01bdef01abeee, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
