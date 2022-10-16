@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DrumInput : MonoBehaviour {
 
@@ -14,23 +16,23 @@ public class DrumInput : MonoBehaviour {
     [Header("Drums")]
 
     [SerializeField] private AudioSource _drumSource;
+    [SerializeField] private float _drumFeedbackDuration = 0.6f;
+    [SerializeField] private Image[] _drumImageFeedback = new Image[4]; // positions
+    [SerializeField] private AudioClip[] _drumSfx = new AudioClip[5]; // 0 is fail
+    [SerializeField] private Sprite[] _drumFeedbackSprite = new Sprite[5]; //0 is fail
+
 
     // [PC Testing]
     [SerializeField] private KeyCode aDrumkey;
     [SerializeField] private KeyCode bDrumkey;
     [SerializeField] private KeyCode cDrumkey;
     [SerializeField] private KeyCode dDrumkey;
-    [SerializeField] private TESTEFEEDBACK testefeedback;
-
 
     private void Update() {
         UpdateMetronome();
 
         // [PC Testing]
-        if (Input.GetKeyDown(aDrumkey)) DrumBtnPress(1);
-        if (Input.GetKeyDown(bDrumkey)) DrumBtnPress(2);
-        if (Input.GetKeyDown(cDrumkey)) DrumBtnPress(3);
-        if (Input.GetKeyDown(dDrumkey)) DrumBtnPress(4);
+        PcTesting();
     }
 
     private void UpdateMetronome() {
@@ -56,26 +58,37 @@ public class DrumInput : MonoBehaviour {
 
     public void DrumBtnPress(int drumN) {
         if (GetMetronomeSuccess()) {
-            if (Enemy.enemyList[0].CheckRythm((Rythm.DrumNote)drumN)) {
-                // visual success indicator
-                testefeedback.ShowFB(true);
-                _drumSource.pitch = Random.Range(0.5f, 1.5f);
-                _drumSource.Play();
-                Debug.Log("Hit Correct");
-            }
-            else {
-                testefeedback.ShowFB(false);
-                Debug.Log("Hit Wrong");
-            }
-            // get closest enemy with matching result
-            // break any sequences that where interrupted
+            if (Enemy.enemyList[0].CheckRythm((Rythm.DrumNote) drumN + 1)) StartCoroutine(ShowFeedback(drumN, 2));
+            else StartCoroutine(ShowFeedback(drumN, 1));
         }
-        else {
-            // visual failure indicator
-            testefeedback.ShowFB(false);
-            Debug.Log("MetroFailure");
-            // break current sequence
+        else StartCoroutine(ShowFeedback(drumN, 0));
+    }
+
+    private IEnumerator ShowFeedback(int drumN, int success) {
+        if (success == 0) Debug.Log("WrongTiming");
+        if (success == 1) Debug.Log("WrongDrum");
+        else Debug.Log("CorrectDrum");
+
+        _drumSource.clip = success == 2? _drumSfx[drumN + 1] : _drumSfx[0];
+        _drumSource.Play();
+
+        Image feedbackImage = _drumImageFeedback[drumN];
+        feedbackImage.sprite = success == 2? _drumFeedbackSprite[drumN + 1] : _drumFeedbackSprite[0];
+        float alpha = 1;
+        while (alpha > 0) {
+            alpha -= Time.deltaTime / _drumFeedbackDuration;
+            feedbackImage.color = new Color(feedbackImage.color.r, feedbackImage.color.g, feedbackImage.color.b, alpha);
+            // Add scale factor
+
+            yield return null;
         }
     }
 
+    // [PC Testing]
+    private void PcTesting() {
+        if (Input.GetKeyDown(aDrumkey)) DrumBtnPress(0);
+        if (Input.GetKeyDown(bDrumkey)) DrumBtnPress(1);
+        if (Input.GetKeyDown(cDrumkey)) DrumBtnPress(2);
+        if (Input.GetKeyDown(dDrumkey)) DrumBtnPress(3);
+    }
 }

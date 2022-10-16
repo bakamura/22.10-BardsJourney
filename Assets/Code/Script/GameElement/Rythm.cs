@@ -20,15 +20,6 @@ public class Rythm : ScriptableObject {
         Blue,
         Yellow
     }
-    public DrumNote[] drumNote = new DrumNote[5];
+    public DrumNote[] drumNote = new DrumNote[7];
 
-    public static DrumNote IntToDrumNote(int drumNote) {
-        switch (drumNote) {
-            case 1: return DrumNote.Red;
-            case 2: return DrumNote.Purple;
-            case 3: return DrumNote.Blue;
-            case 4: return DrumNote.Yellow;
-            default: return DrumNote.Null;
-        }
-    }
 }

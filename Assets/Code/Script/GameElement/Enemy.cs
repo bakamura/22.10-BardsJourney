@@ -1,20 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
     public static List<Enemy> enemyList = new List<Enemy>();
-
-    [Header("Movement")]
-
-    private float _movementState = 0f;
-    [SerializeField] private float _movementDuration = 8f;
-    [SerializeField] private float _heightStart = 0f;
-    [SerializeField] private float _heightMax = 2f;
-    [SerializeField] private float _heightMin = -0.5f;
-    private float _heightTotal;
-    [SerializeField] private float _sizeInitial = 1f;
-    [SerializeField] private float _sizeFinal = 4f;
 
     [Header("Rythm")]
 
@@ -25,41 +15,35 @@ public class Enemy : MonoBehaviour {
     private void Start() {
         enemyList.Add(this);
 
-        _heightTotal = (_heightMax - _heightStart) + (_heightMax - _heightMin);
+        GetComponent<MovingElement>().onChangeHeightDirection.AddListener(SetBarAboveGround);
+        GetComponent<MovingElement>().onCompletePath.AddListener(AttackPlayer);
     }
 
-    private void Update() {
-        UpdatePosition();
+    private void SetBarAboveGround() {
+        _rythmNotes[0].transform.parent.GetComponent<SpriteRenderer>().sortingOrder += 5;
+        for (int i = 0; i < _rythmNotes.Length; i++) _rythmNotes[i].sortingOrder += 5;
     }
 
-    private void UpdatePosition() {
-        if (_movementState < 1f) {
-            float lastMovementState = _movementState;
-            _movementState += Time.deltaTime / _movementDuration;
+    private void AttackPlayer() {
+        StartCoroutine(Attack());
+    }
 
-            transform.position = new Vector3(transform.position.x,
-                _movementState < (_heightMax - _heightStart) / _heightTotal ? _heightStart + (_movementState * _heightTotal) : _heightMax - ((_movementState * _heightTotal) - (_heightMax - _heightStart)), transform.position.z);
+    private IEnumerator Attack() {
+        // Start anim
 
-            float size = _movementState < (_heightMax - _heightStart) / _heightTotal ?
-                _sizeInitial : _sizeInitial + ((_sizeFinal - _sizeInitial) * ((_movementState * _heightTotal) - (_heightMax - _heightStart)) / (_heightMax - _heightMin));
+        yield return new WaitForSeconds(1f); // Set duration to be adjustable
 
-            transform.localScale = new Vector3(size, size, 1);
-
-            if(lastMovementState < (_heightMax - _heightStart) / _heightTotal && _movementState >= (_heightMax - _heightStart) / _heightTotal) {
-                GetComponent<SpriteRenderer>().sortingOrder += 5;
-                _rythmNotes[0].transform.parent.GetComponent<SpriteRenderer>().sortingOrder += 5;
-                for(int i = 0; i < _rythmNotes.Length; i++) _rythmNotes[i].sortingOrder += 5;
-            }
-        }
-        else {
-            // Fail level
-        }
+        // Fail Level
     }
 
     public bool CheckRythm(Rythm.DrumNote note) {
+        // Handle rythm sequences before return
         if (_rythm.drumNote[_rythmState] == note) {
             _rythmState++;
-            if (_rythmState == _rythm.Size) Destroy(gameObject); // Provisory
+            if (_rythmState == _rythm.Size) {
+                StopAllCoroutines();
+                Destroy(gameObject); // Provisory, should play charmed animation instead
+            }
             return true;
         }
         _rythmState = 0;
