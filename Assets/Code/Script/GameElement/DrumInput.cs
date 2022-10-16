@@ -6,12 +6,15 @@ public class DrumInput : MonoBehaviour {
 
     [Header("Metronome")]
 
-    private float _metronomeState = 0.5f;
+    [SerializeField] private float _metronomeState = 0.5f;
     public float metronomeSpeed = 1f;
     public float metronomeSuccessInterval = 0.25f;
 
     [SerializeField] private RectTransform _needleRectTransform;
     [SerializeField] private float _needleAmplitude = 100f;
+
+    private bool _lastMetronomeSuccess;
+    private bool _hasInputed = false;
 
     [Header("Drums")]
 
@@ -21,12 +24,19 @@ public class DrumInput : MonoBehaviour {
     [SerializeField] private AudioClip[] _drumSfx = new AudioClip[5]; // 0 is fail
     [SerializeField] private Sprite[] _drumFeedbackSprite = new Sprite[5]; //0 is fail
 
+    [Header("Proxy")]
+
+    private EnemyWaveManager _waveManger;
 
     // [PC Testing]
     [SerializeField] private KeyCode aDrumkey;
     [SerializeField] private KeyCode bDrumkey;
     [SerializeField] private KeyCode cDrumkey;
     [SerializeField] private KeyCode dDrumkey;
+
+    private void Start() {
+        _waveManger = GetComponent<EnemyWaveManager>();
+    }
 
     private void Update() {
         UpdateMetronome();
@@ -48,6 +58,12 @@ public class DrumInput : MonoBehaviour {
 
         _needleRectTransform.rotation = Quaternion.Euler(0, 0, (_metronomeState * _needleAmplitude) - (_needleAmplitude / 2));
         //_needleRectTransform.rotation = Quaternion.Euler(0, 0, ((0.5f - (metronomeSuccessInterval / 2)) * _needleAmplitude) - (_needleAmplitude / 2)); // Get Success Interval
+
+        if (_lastMetronomeSuccess != GetMetronomeSuccess() && _lastMetronomeSuccess) {
+            if (_hasInputed) _hasInputed = false;
+            else _waveManger.enemiesSpawned[0].ResetRythmBar();
+        }
+        _lastMetronomeSuccess = GetMetronomeSuccess();
     }
 
     private bool GetMetronomeSuccess() {
@@ -57,11 +73,17 @@ public class DrumInput : MonoBehaviour {
     }
 
     public void DrumBtnPress(int drumN) {
-        if (GetMetronomeSuccess()) {
-            if (Enemy.enemyList[0].CheckRythm((Rythm.DrumNote) drumN + 1)) StartCoroutine(ShowFeedback(drumN, 2));
+        if (GetMetronomeSuccess() && !_hasInputed) {
+            if (_waveManger.enemiesSpawned[0].CheckRythm((Rythm.DrumNote)drumN + 1)) {
+                _hasInputed = true;
+                StartCoroutine(ShowFeedback(drumN, 2));
+            }
             else StartCoroutine(ShowFeedback(drumN, 1));
         }
-        else StartCoroutine(ShowFeedback(drumN, 0));
+        else {
+            StartCoroutine(ShowFeedback(drumN, 0));
+            _waveManger.enemiesSpawned[0].ResetRythmBar();
+        }
     }
 
     private IEnumerator ShowFeedback(int drumN, int success) {

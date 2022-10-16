@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4444c9f0af1ec248a523d11a9c6c46b, type: 3}
+  m_Name: BearDay1
+  m_EditorClassIdentifier: 
+  noteSprites:
+  - {fileID: 0}
+  - {fileID: 21300000, guid: 5c8523988c8c49148bedaa923f293198, type: 3}
+  - {fileID: 21300000, guid: b7e993af6661d6744b0dc53b367602d6, type: 3}
+  - {fileID: 21300000, guid: 4df3b722a55b20945a50f21d764604f1, type: 3}
+  - {fileID: 21300000, guid: b9e9c200442e8534e94baf30381681db, type: 3}
+  drumNote: 01000000020000000100000003000000000000000000000000000000
