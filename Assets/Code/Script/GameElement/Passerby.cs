@@ -1,9 +1,16 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour {
+public class Passerby : MonoBehaviour {
+
+    [Header("Movement")]
+
+    private bool _canMove = true;
+    [SerializeField] private Vector3 _initialPos;
+    [SerializeField] private Vector3 _finalPos;
+    private float _currentPos = 0;
+    [SerializeField] private float _movementDuration = 24f;
 
     [Header("Rythm")]
 
@@ -11,16 +18,11 @@ public class Enemy : MonoBehaviour {
     [SerializeField] private Rythm _rythm;
     private int _rythmState = 0;
 
-    [HideInInspector] public EnemyWaveManager waveManager;
-    private MovingElement _movingElement;
+    [Header("PowerUp")]
 
     private Image _powerupImage;
 
     private void Start() {
-        GetComponent<MovingElement>().onChangeHeightDirection.AddListener(SetBarAboveGround);
-        GetComponent<MovingElement>().onCompletePath.AddListener(AttackPlayer);
-        _movingElement = GetComponent<MovingElement>();
-
         for (int i = 0; i < _rythm.Size; i++) {
             _rythmNotes[i].sprite = _rythm.noteSprites[(int)_rythm.drumNote[i]];
             _rythmNotes[i].enabled = _rythm.drumNote[i] != Rythm.DrumNote.Null;
@@ -30,34 +32,15 @@ public class Enemy : MonoBehaviour {
     }
 
     private void Update() {
-        _rythmNotes[0].transform.parent.GetComponent<SpriteRenderer>().sortingOrder = (int)Mathf.Floor(_movingElement.movementState * 100f) - 1;
-        foreach (SpriteRenderer sr in _rythmNotes) sr.sortingOrder = (int)Mathf.Floor(_movingElement.movementState * 100f);
+        Movement();
     }
 
-    private void SetBarAboveGround() {
-
-        _rythmNotes[0].transform.parent.GetComponent<SpriteRenderer>().sortingLayerName = "InFront";
-        for (int i = 0; i < _rythmNotes.Length; i++) _rythmNotes[i].sortingLayerName = "InFront";
-    }
-
-    private void AttackPlayer() {
-        if (_powerupImage.color != Color.white) StartCoroutine(Attack());
-        else {
-            _powerupImage.color = new Color(0, 0, 0, 0);
-            StartCoroutine(FadeOut());
+    private void Movement() {
+        if (_canMove) {
+            _currentPos += Time.deltaTime / _movementDuration;
+            if (_currentPos > 1) Destroy(gameObject);
+            transform.position = Vector3.Lerp(_initialPos, _finalPos, _currentPos);
         }
-    }
-
-    private IEnumerator Attack() {
-        // Start anim
-
-        waveManager.loseScreen.SetActive(true);
-
-        yield return new WaitForSeconds(2.5f); // Set duration to be adjustable
-
-        // Fail Level
-
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public bool CheckRythm(Rythm.DrumNote note) {
@@ -97,11 +80,11 @@ public class Enemy : MonoBehaviour {
     }
 
     private IEnumerator FadeOut() {
-        StopCoroutine(Attack());
-        GetComponent<MovingElement>().canMove = false;
+        _canMove = false;
         GetComponent<Animator>().SetTrigger("Charmed");
         _rythmNotes[0].transform.parent.gameObject.SetActive(false);
-        waveManager.enemiesSpawned.RemoveAt(0);
+        // Give Powerup
+        _powerupImage.color = Color.white;
 
         yield return new WaitForSeconds(1.5f);
 
@@ -113,7 +96,6 @@ public class Enemy : MonoBehaviour {
 
             yield return null;
         }
-        waveManager.charmCount++;
         Destroy(gameObject);
     }
 }

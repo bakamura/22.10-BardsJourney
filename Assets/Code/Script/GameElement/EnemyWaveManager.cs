@@ -20,8 +20,11 @@ public class EnemyWaveManager : MonoBehaviour {
     private IEnumerator SpawnEnemy() {
         for (int i = 0; i < _enemiesToSpawn.Length; i++) {
             Enemy enemySpawned = Instantiate(_enemyList[_enemiesToSpawn[i].typeOf], new Vector3(Random.Range(-1.8f, 1.8f), -2.5f, 0), Quaternion.identity).GetComponent<Enemy>();
-            enemySpawned.waveManager = this;
-            enemiesSpawned.Add(enemySpawned);
+            if (enemySpawned != null) {
+                enemySpawned.waveManager = this;
+                enemiesSpawned.Add(enemySpawned);
+            }
+            else charmCount++;
 
             yield return new WaitForSeconds(_enemiesToSpawn[i].timeOf);
         }

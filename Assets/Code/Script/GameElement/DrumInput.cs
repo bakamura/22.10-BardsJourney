@@ -74,11 +74,16 @@ public class DrumInput : MonoBehaviour {
 
     public void DrumBtnPress(int drumN) {
         if (GetMetronomeSuccess() && !_hasInputed) {
-            if (_waveManger.enemiesSpawned[0].CheckRythm((Rythm.DrumNote)drumN + 1)) {
+            if (_waveManger.enemiesSpawned.Count > 0 && _waveManger.enemiesSpawned[0].CheckRythm((Rythm.DrumNote)drumN + 1)) {
                 _hasInputed = true;
                 StartCoroutine(ShowFeedback(drumN, 2));
             }
             else StartCoroutine(ShowFeedback(drumN, 1));
+            Passerby passerby = GameObject.FindGameObjectWithTag("Passerby")?.GetComponent<Passerby>();
+            if (passerby != null && passerby.CheckRythm((Rythm.DrumNote)drumN + 1)) {
+                StopAllCoroutines(); //
+                StartCoroutine(ShowFeedback(drumN, 2));
+            }
         }
         else {
             StartCoroutine(ShowFeedback(drumN, 0));

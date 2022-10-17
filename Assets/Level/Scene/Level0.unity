@@ -1180,23 +1180,24 @@ MonoBehaviour:
   - {fileID: 2286244124356969541, guid: 6bcb4bfbc42a47245a99cc68fafdecd8, type: 3}
   - {fileID: 4573147661691347512, guid: 70bd064bc3d996145a165670c0783a65, type: 3}
   - {fileID: 1409253182877052020, guid: eda8c360e3dc09b498bddec3a919771d, type: 3}
+  - {fileID: 2900963992621077397, guid: 72bd1305ea34aa94480b956f285105a7, type: 3}
   _enemiesToSpawn:
   - timeOf: 4
     typeOf: 0
-  - timeOf: 4
+  - timeOf: 5
     typeOf: 0
   - timeOf: 6
     typeOf: 1
   - timeOf: 3
-    typeOf: 0
+    typeOf: 4
   - timeOf: 3
+    typeOf: 0
+  - timeOf: 5
     typeOf: 0
   - timeOf: 4
     typeOf: 1
   - timeOf: 6
     typeOf: 2
-  - timeOf: 4
-    typeOf: 0
   - timeOf: 4
     typeOf: 1
   - timeOf: 6
@@ -2355,11 +2356,11 @@ RectTransform:
   m_Father: {fileID: 1557254124}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -352, y: 0}
   m_SizeDelta: {x: 480, y: 240}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &671326315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3076,6 +3077,82 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1322922536}
   m_CullTransparentMesh: 1
+--- !u!1 &1344926529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1344926530}
+  - component: {fileID: 1344926532}
+  - component: {fileID: 1344926531}
+  m_Layer: 5
+  m_Name: PowerupImage
+  m_TagString: PowerupImage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1344926530
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344926529}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1557254124}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -32, y: -32}
+  m_SizeDelta: {x: 256, y: 256}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &1344926531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344926529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 259805678, guid: 368dd0a62c5171840976169f03873a59, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1344926532
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344926529}
+  m_CullTransparentMesh: 1
 --- !u!1 &1366999062
 GameObject:
   m_ObjectHideFlags: 0
@@ -3604,6 +3681,7 @@ RectTransform:
   - {fileID: 420529837}
   - {fileID: 1382853809}
   - {fileID: 671326314}
+  - {fileID: 1344926530}
   m_Father: {fileID: 333723033}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4087,7 +4165,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -8348309054891780334, guid: c21536a4b4bdff14083a94af8966a70c, type: 2}
   m_audioClip: {fileID: 8300000, guid: e346ae046db8ff847a1da825de322780, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
